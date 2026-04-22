@@ -22,10 +22,10 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Segoe UI", Roboto, sans-serif;
-    font-size: 14px; line-height: 1.4; -webkit-text-size-adjust: 100%; }
+    font-size: 16px; line-height: 1.4; -webkit-text-size-adjust: 100%; }
   .wrap { max-width: 1400px; margin: 0 auto; padding: 16px; }
-  h1 { font-size: 20px; margin: 0 0 4px; letter-spacing: -0.02em; }
-  .sub { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
+  h1 { font-size: 22px; margin: 0 0 4px; letter-spacing: -0.02em; }
+  .sub { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
   .sub .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--good); margin-right: 6px; vertical-align: middle; }
   .sub .dot.warn { background: var(--warn); }
   .sub .dot.bad { background: var(--bad); }
@@ -35,11 +35,11 @@
     padding: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px;
     margin-bottom: 14px;
   }
-  .common label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
-  .common label .in-tag { background: var(--input-border); color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; font-weight: 600; }
+  .common label { font-size: 14px; color: var(--muted); display: block; margin-bottom: 4px; }
+  .common label .in-tag { background: var(--input-border); color: #fff; font-size: 12px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; font-weight: 600; }
   .common input {
     width: 100%; background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text);
-    border-radius: 8px; padding: 10px 12px; font-size: 16px; outline: none;
+    border-radius: 8px; padding: 10px 12px; font-size: 18px; outline: none;
     font-variant-numeric: tabular-nums;
   }
   .common input:focus { border-color: var(--accent); }
@@ -55,58 +55,58 @@
       minmax(120px, 1fr)   /* 노출가격 */
       minmax(110px, 1fr)   /* 배송료 KRW */
       minmax(140px, 1.2fr) /* 최종마진 */
-      minmax(90px, 0.9fr); /* 수익률 */
-    min-width: 900px;
+      minmax(100px, 0.9fr); /* 수익률 */
+    min-width: 1020px;
   }
   .th, .td {
     padding: 10px 12px; border-bottom: 1px solid var(--line);
     font-variant-numeric: tabular-nums; display: flex; align-items: center;
   }
   .th {
-    background: #12141a; color: var(--muted); font-size: 11px; font-weight: 600;
+    background: #12141a; color: var(--muted); font-size: 13px; font-weight: 600;
     text-transform: none; letter-spacing: 0; position: sticky; top: 0; z-index: 2;
   }
-  .td.name { font-weight: 700; font-size: 15px; gap: 8px; background: var(--panel-2); }
-  .td.name .flag { font-size: 18px; }
-  .td.fx { color: var(--muted); font-size: 12px; gap: 4px; flex-wrap: wrap; }
-  .td.fx b { color: var(--text); font-weight: 600; font-size: 13px; }
+  .td.name { font-weight: 700; font-size: 17px; gap: 8px; background: var(--panel-2); }
+  .td.name .flag { font-size: 20px; }
+  .td.fx { color: var(--muted); font-size: 14px; gap: 4px; flex-wrap: wrap; }
+  .td.fx b { color: var(--text); font-weight: 600; font-size: 15px; }
   .td.fx input {
-    width: 78px; background: var(--input-bg); border: 1px solid var(--input-border);
-    color: var(--text); border-radius: 6px; padding: 4px 6px; font-size: 13px; outline: none;
+    width: 86px; background: var(--input-bg); border: 1px solid var(--input-border);
+    color: var(--text); border-radius: 6px; padding: 4px 6px; font-size: 15px; outline: none;
     font-variant-numeric: tabular-nums; font-weight: 600;
   }
   .td.fx input:focus { border-color: var(--accent); }
   .td.fx input::placeholder { color: var(--muted); font-weight: 400; }
-  .td.fx .api { color: var(--muted); font-size: 10px; }
-  .td.fx .overridden { color: var(--accent); font-size: 10px; font-weight: 600; }
+  .td.fx .api { color: var(--muted); font-size: 12px; }
+  .td.fx .overridden { color: var(--accent); font-size: 12px; font-weight: 600; }
   .td.in { background: rgba(59, 93, 168, 0.12); }
   .td.in input {
     width: 100%; background: var(--input-bg); border: 1px solid var(--input-border);
-    color: var(--text); border-radius: 6px; padding: 7px 9px; font-size: 15px; outline: none;
+    color: var(--text); border-radius: 6px; padding: 7px 9px; font-size: 17px; outline: none;
     font-variant-numeric: tabular-nums;
   }
   .td.in input:focus { border-color: var(--accent); }
-  .td .u { color: var(--muted); font-size: 11px; margin-left: 4px; }
-  .td.margin { font-weight: 700; font-size: 15px; }
+  .td .u { color: var(--muted); font-size: 13px; margin-left: 4px; }
+  .td.margin { font-weight: 700; font-size: 17px; }
   .td.margin.pos { color: var(--good); }
   .td.margin.neg { color: var(--bad); }
-  .td.rate { font-weight: 700; font-size: 15px; }
+  .td.rate { font-weight: 700; font-size: 17px; }
   .td.rate.pos { color: var(--good); }
   .td.rate.warn { color: var(--warn); }
   .td.rate.neg { color: var(--bad); }
   .row:last-child .td { border-bottom: none; }
 
-  .note { font-size: 11px; color: var(--muted); margin-top: 6px; padding: 0 4px; }
+  .note { font-size: 13px; color: var(--muted); margin-top: 6px; padding: 0 4px; }
   .dp-note {
     margin-top: 14px; padding: 14px 16px; border-radius: 10px;
     background: rgba(255, 107, 53, 0.08); border: 1px solid rgba(255, 107, 53, 0.35);
-    color: var(--text); font-size: 14px; line-height: 1.5;
+    color: var(--text); font-size: 16px; line-height: 1.5;
   }
   .dp-note b { color: var(--accent); font-weight: 700; }
-  .dp-note .big { font-size: 16px; font-weight: 700; display: block; margin-bottom: 4px; color: var(--accent); }
-  .footer { color: var(--muted); font-size: 11px; margin-top: 18px; line-height: 1.6; }
+  .dp-note .big { font-size: 18px; font-weight: 700; display: block; margin-bottom: 4px; color: var(--accent); }
+  .footer { color: var(--muted); font-size: 13px; margin-top: 18px; line-height: 1.6; }
   .footer code { background: var(--panel-2); padding: 1px 5px; border-radius: 4px; color: var(--text); }
-  .footer .in-tag { background: var(--input-border); color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
+  .footer .in-tag { background: var(--input-border); color: #fff; font-size: 12px; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -182,7 +182,11 @@ const fmt = {
     const decimals = (cur === 'VND' || cur === 'THB' || cur === 'TWD' || cur === 'PHP') ? 0 : 2;
     return n.toLocaleString('ko-KR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + ' ' + cur;
   },
-  fx: n => isFinite(n) ? n.toLocaleString('ko-KR', { maximumFractionDigits: 4 }) : '—',
+  fx: n => {
+    if (!isFinite(n)) return '—';
+    if (n < 1) return n.toLocaleString('ko-KR', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+    return n.toLocaleString('ko-KR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  },
 };
 
 const state = { fx: {}, lastFxAt: null };
