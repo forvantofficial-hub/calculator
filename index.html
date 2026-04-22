@@ -82,7 +82,7 @@
 
   @media (min-width: 720px) {
     .grid { grid-template-columns: 1fr 1fr; }
-    .row { grid-template-columns: 1fr 1fr 1fr; }
+    .row { grid-template-columns: repeat(4, 1fr); }
     .result { grid-template-columns: 1fr 1fr; }
   }
   @media (min-width: 1000px) {
@@ -109,8 +109,8 @@
   <div class="grid" id="cards"></div>
 
   <div class="footer">
-    <div>· 수수료율은 2026-02-01 기준으로 반영되어 있음. 변경 시 코드 <code>COUNTRIES</code> 수정.</div>
-    <div>· 정산금 계산: (노출가격 × (1-수수료) − 쇼피배송료) × 환율 × 0.97 &nbsp;· 페이오니아 3% 선반영</div>
+    <div>· 수수료율은 2026-02-01 기준 기본값. 각 국가 카드에서 직접 수정 가능 (브라우저에 자동 저장).</div>
+    <div>· 정산금 계산: (노출가격 × (1-수수료) − 쇼피배송료) × 환율 × 0.97 &nbsp;· (Transaction fee + 페이오니아, 쇼피월렛 수수료) = 약 3%</div>
     <div>· 최종마진 = 정산금(KRW) − 원가×0.90909 &nbsp;(부가세 환급 9.1% 포함)</div>
     <div>· 수익률 = 최종마진 ÷ (DP입력가 × 환율 × 0.97)</div>
     <div>· 환율은 exchangerate-api (USD base)에서 5분마다 갱신. 목표가 바뀌면 상단 필드만 수정.</div>
@@ -174,6 +174,10 @@ function buildCards() {
           el('label', {}, 'D.P. 입력가 ('+c.cur+')'),
           el('input', { type:'number', inputmode:'decimal', step: c.dpStep, placeholder: c.dpPh, 'data-dp': c.key }),
         ]),
+        el('div', { class:'cell in' }, [
+          el('label', {}, '수수료 (%)'),
+          el('input', { type:'number', inputmode:'decimal', step:'0.01', 'data-fee': c.key, value: (c.fee*100).toFixed(2) }),
+        ]),
         el('div', { class:'cell' }, [
           el('label', {}, '노출가격 ('+c.cur+')'),
           el('div', { class:'v', 'data-disp': c.key }, '—'),
@@ -206,12 +210,15 @@ function compute() {
   for (const c of COUNTRIES) {
     const dpInput = document.querySelector(`[data-dp="${c.key}"]`);
     const dp = parseFloat(dpInput.value);
+    const feeInput = document.querySelector(`[data-fee="${c.key}"]`);
+    const feePct = parseFloat(feeInput.value);
+    const fee = isFinite(feePct) ? feePct / 100 : c.fee;
     const fx = state.fx[c.key];
 
     const disp = (isFinite(dp) && dp > 0) ? dp * c.mult(dp) : NaN;
     const ship = (isFinite(weight) && weight > 0) ? c.ship(weight) : NaN;
 
-    const settleLoc = (isFinite(disp) && isFinite(ship)) ? disp * (1 - c.fee) - ship : NaN;
+    const settleLoc = (isFinite(disp) && isFinite(ship)) ? disp * (1 - fee) - ship : NaN;
     const settleKRW = (isFinite(settleLoc) && isFinite(fx)) ? settleLoc * fx * PAYONEER : NaN;
 
     const margin = (isFinite(settleKRW) && isFinite(cost)) ? settleKRW - cost * VAT_KEEP : NaN;
@@ -279,11 +286,36 @@ function setFxError(msg) {
   document.getElementById('fxStatus').textContent = '환율 불러오기 실패: ' + msg;
 }
 
+const FEE_STORAGE_KEY = 'shopee-margin-fees-v1';
+
+function loadSavedFees() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FEE_STORAGE_KEY) || '{}');
+    for (const c of COUNTRIES) {
+      if (typeof saved[c.key] === 'number' && isFinite(saved[c.key])) {
+        const input = document.querySelector(`[data-fee="${c.key}"]`);
+        if (input) input.value = saved[c.key];
+      }
+    }
+  } catch (_) {}
+}
+
+function saveFees() {
+  const out = {};
+  document.querySelectorAll('[data-fee]').forEach(i => {
+    const v = parseFloat(i.value);
+    if (isFinite(v)) out[i.getAttribute('data-fee')] = v;
+  });
+  try { localStorage.setItem(FEE_STORAGE_KEY, JSON.stringify(out)); } catch (_) {}
+}
+
 function init() {
   buildCards();
+  loadSavedFees();
   document.getElementById('cost').addEventListener('input', compute);
   document.getElementById('weight').addEventListener('input', compute);
   document.querySelectorAll('[data-dp]').forEach(i => i.addEventListener('input', compute));
+  document.querySelectorAll('[data-fee]').forEach(i => i.addEventListener('input', () => { compute(); saveFees(); }));
   fetchFx().catch(e => setFxError(e.message));
   setInterval(() => fetchFx().catch(e => setFxError(e.message)), FX_REFRESH_MS);
 }
