@@ -151,9 +151,9 @@
 
   <div class="footer">
     <div>· 수수료율은 2026-02-01 기준 기본값. 표에서 직접 수정 가능 (브라우저에 자동 저장).</div>
-    <div>· 정산금 계산: (노출가격 × (1-수수료) − 쇼피배송료) × 환율 × 0.97 &nbsp;· (Transaction fee + 페이오니아, 쇼피월렛 수수료) = 약 3%</div>
+    <div>· 정산금 계산: (노출가격 × (1-수수료) − 쇼피배송료) × 환율 &nbsp;· 환율 자체에 ×0.99(USD 변환 1% 차감) 이미 반영됨</div>
     <div>· 최종마진 = 정산금(KRW) − 원가×0.90909 &nbsp;(부가세 환급 9.1% 포함)</div>
-    <div>· 수익률 = 최종마진 ÷ (DP입력가 × 환율 × 0.97)</div>
+    <div>· 수익률 = 최종마진 ÷ (DP입력가 × 환율)</div>
     <div>· <b style="color:var(--warn)">환율 출처:</b> <a href="https://docs.google.com/spreadsheets/d/1Wx541mkVldA9IKSvHcXdBJvSxKy66EP5dNycLcSyZrg/edit" target="_blank" style="color:var(--accent);text-decoration:underline">Google Sheet</a> 내 <code>=GOOGLEFINANCE("CURRENCY:XXXKRW")</code> 값에 <b>× 0.99</b> 적용한 값. 0.99를 곱하는 이유는 <b>해당 국가 통화 → USD 정산 시 환전 수수료 1%가 차감</b>되기 때문 (쇼피→페이오니아 USD 수령 기준).</div>
     <div>· 정확한 값을 직접 쓰려면 표의 <b>환율 칸</b>에 숫자 입력 → 시트 값 무시하고 입력값으로 계산 (자동 저장).</div>
   </div>
@@ -170,7 +170,6 @@ const COUNTRIES = [
 ];
 
 const FX_REFRESH_MS = 5 * 60 * 1000;
-const PAYONEER = 0.97;
 const VAT_KEEP = 0.90909;
 const FEE_STORAGE_KEY = 'shopee-margin-fees-v2';
 const FX_STORAGE_KEY = 'shopee-margin-fx-override-v1';
@@ -256,10 +255,10 @@ function compute() {
     const shipKRW = (isFinite(shipLoc) && isFinite(fx)) ? shipLoc * fx : NaN;
 
     const settleLoc = (isFinite(disp) && isFinite(shipLoc)) ? disp * (1 - fee) - shipLoc : NaN;
-    const settleKRW = (isFinite(settleLoc) && isFinite(fx)) ? settleLoc * fx * PAYONEER : NaN;
+    const settleKRW = (isFinite(settleLoc) && isFinite(fx)) ? settleLoc * fx : NaN;
 
     const margin = (isFinite(settleKRW) && isFinite(cost)) ? settleKRW - cost * VAT_KEEP : NaN;
-    const revBase = (isFinite(dp) && isFinite(fx)) ? dp * fx * PAYONEER : NaN;
+    const revBase = (isFinite(dp) && isFinite(fx)) ? dp * fx : NaN;
     const rate = (isFinite(margin) && isFinite(revBase) && revBase > 0) ? margin / revBase : NaN;
 
     document.querySelector(`[data-disp="${c.key}"]`).textContent = fmt.loc(disp, c.cur);
