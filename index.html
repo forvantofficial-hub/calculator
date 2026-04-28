@@ -166,12 +166,12 @@ const COUNTRIES = [
   { key:'TH', flag:'🇹🇭', name:'태국',     fee:0.40,   ship:w => w/3.8,   mult: _dp => 1.2955, cur:'THB', dpPh:'300',  dpStep:'1' },
   { key:'MY', flag:'🇲🇾', name:'말레이',   fee:0.32,   ship:w => w/45.9,  mult: dp  => (dp && dp < 500) ? 1.1 : 1.0, cur:'MYR', dpPh:'60', dpStep:'0.01' },
   { key:'VN', flag:'🇻🇳', name:'베트남',   fee:0.33,   ship:w => w*112.3, mult: _dp => 1.1,    cur:'VND', dpPh:'300000', dpStep:'1000' },
-  { key:'PH', flag:'🇵🇭', name:'필리핀',   fee:0.17,   ship:w => w/3,     mult: _dp => 1.00,   cur:'PHP', dpPh:'800',  dpStep:'1' },
+  { key:'PH', flag:'🇵🇭', name:'필리핀',   fee:0.185,  ship:w => w/3,     mult: _dp => 1.00,   cur:'PHP', dpPh:'800',  dpStep:'1' },
 ];
 
 const FX_REFRESH_MS = 5 * 60 * 1000;
 const VAT_KEEP = 0.90909;
-const FEE_STORAGE_KEY = 'shopee-margin-fees-v2';
+const FEE_STORAGE_KEY = 'shopee-margin-fees-v3';
 const FX_STORAGE_KEY = 'shopee-margin-fx-override-v1';
 
 const fmt = {
